@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Tic tac toe</title>
+		<link href = "main.css" type = "text/css" rel = "stylesheet">
+		</head>
+	<body>
+		<center>
+			<h1>TIC TAC TOE</h1>
+		<div class = "box">
+			<canvas id = "canvas1" style = "width: 50px; height : 50px; border : 2px solid black;border-top : none; border-left : none;" onclick = "canvasClicked(1)"></canvas>
+			<canvas id = "canvas2" style = "width: 50px; height : 50px; border : 2px solid black; border-top : none" onclick = "canvasClicked(2)"></canvas>
+			<canvas id = "canvas3" style = "width: 50px; height : 50px; border : 2px solid black;border-top : none; border-right : none;" onclick = "canvasClicked(3)"></canvas><br>
+			<canvas id = "canvas4" style = "width:50px; height : 50px; border : 2px solid black;border-left : none;" onclick = "canvasClicked(4)"></canvas>
+			<canvas id = "canvas5" style = "width: 50px; height : 50px; border : 2px solid black" onclick = "canvasClicked(5)"></canvas>
+			<canvas id = "canvas6" style = "width: 50px; height : 50px; border : 2px solid black;border-right : none;" onclick = "canvasClicked(6)"></canvas><br>
+			<canvas id = "canvas7" style = "width: 50px; height : 50px; border : 2px solid black;border-bottom : none; border-left : none;" onclick = "canvasClicked(7)"></canvas>
+			<canvas id = "canvas8" style = "width: 50px; height : 50px; border : 2px solid black;border-bottom : none;" onclick = "canvasClicked(8)"></canvas>
+			<canvas id = "canvas9" style = "width: 50px; height : 50px; border : 2px solid black;border-bottom : none; border-right : none;" onclick = "canvasClicked(9)"></canvas>
+			</div>
+		</center>	
+	<script type = "text/javascript">
+	var painted;
+	var content;
+	var winningCombinations;
+	var cxt;
+	var c;
+	var turn = 0;
+	var theCanvas;
+	var w;
+	var y;
+	var squaresFilled = 0;
+	
+	window.onload = function(){
+		painted = new Array();
+		content = new Array();
+		winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+		for(var l=0;l<=8;l++)
+		{
+		painted[l] = false;
+		content[l] = '';
+		}
+		}
+		function canvasClicked(canvasNumber){
+		theCanvas = "canvas"+canvasNumber;
+		c = document.getElementById(theCanvas);
+		cxt = c.getContext("2d");
+		if(painted[canvasNumber-1] == false){
+			if(turn%2 == 0){
+				cxt.beginPath();
+				cxt.moveTo(10,10);
+				cxt.lineTo(40,40);
+				cxt.moveTo(40,10);
+				cxt.lineTo(10,40);
+				cxt.stroke();
+				cxt.closePath();
+				content[canvasNumber -1] = 'X';
+				}
+				else{
+				cxt.beginPath();
+				cxt.arc(25,25,20,0,Math.PI*2);
+				cxt.stroke();
+				cxt.closePath();
+				content[canvasNumber-1] = 'O';
+				}
+				turn++;
+				squaresFilled++;
+				painted[canvasNumber-1] = true;
+				winnerCheck(content[canvasNumber-1]);
+				if(squaresFilled == 9)
+				{
+				alert("The game is over!");
+				location.reload(true);
+				}
+			}
+			else{
+			alert("This box is already taken!");
+			}
+			}
+			function winnerCheck(symbol){
+			for(var a = 0;a<winningCombinations.length;a++){
+			if(content[winningCombinations[a][0]]==symbol && content[winningCombinations[a][1]] == symbol && content[winningCombinations[a][2]] == symbol){
+			alert(symbol + " has won the game!");
+			playAgain();
+			}
+			}
+			}
+			function playAgain(){
+			y = confirm("Play again?");
+			if(y==true){
+			alert("Initiating Play again..");
+			location.reload(true);
+			}
+			else
+			{
+			alert("So long!");
+			}
+			}
+    </script>
+    
+    </body>
+    
+</html>
